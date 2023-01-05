@@ -16,6 +16,8 @@ class AddProductProvider with ChangeNotifier {
     ImagePicker imagePicker = ImagePicker();
     XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
 
+    print('==================================');
+
     if (file == null) {
       return;
     }
@@ -32,6 +34,7 @@ class AddProductProvider with ChangeNotifier {
       imageUrl = await referenceImageToUpload.getDownloadURL();
     } catch (error) {
       log(error.toString());
+      print('----------------------------------$error');
     }
     // log(image.toString());
 
@@ -49,7 +52,7 @@ class AddProductProvider with ChangeNotifier {
     //   return;
     // }
     // imagelist.addAll(image);
-    imagelist.add(imageUrl);
+    imagelist.add(file);
 
     notifyListeners();
   }

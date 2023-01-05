@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "507385726619",
-    "project_id": "merchant-watches",
-    "storage_bucket": "merchant-watches.appspot.com"
+    "project_number": "155554438601",
+    "project_id": "merchant-watches-2fb30",
+    "storage_bucket": "merchant-watches-2fb30.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:507385726619:android:2c5a1ca7d3a6ddaa24683e",
+        "mobilesdk_app_id": "1:155554438601:android:ca8f044db2d8ebc6435c18",
         "android_client_info": {
-          "package_name": "com.hppavilion.merchantwatches"
+          "package_name": "com.example.merchant_watches"
         }
       },
       "oauth_client": [
         {
-          "client_id": "507385726619-vtg13t6738b7sp8qou06jopfks3ed7hs.apps.googleusercontent.com",
+          "client_id": "155554438601-ip8qbfltr7mfq0spk2mfc8fian35k5st.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyApoqAS1upPUufXD8Sf6-BcKPex1qHdZlE"
+          "current_key": "AIzaSyDUBJehGXYebzHD6s5e9KST6f6w-HVpnik"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "507385726619-vtg13t6738b7sp8qou06jopfks3ed7hs.apps.googleusercontent.com",
+              "client_id": "155554438601-ip8qbfltr7mfq0spk2mfc8fian35k5st.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
