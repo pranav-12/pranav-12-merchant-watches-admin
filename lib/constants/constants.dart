@@ -13,4 +13,3 @@ const ksizedBoxheight50 = SizedBox(height: 50);
 
 const ksizedBoxWidth10 = SizedBox(width: 10);
 const ksizedBoxWidth20 = SizedBox(width: 20);
-

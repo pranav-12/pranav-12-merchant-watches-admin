@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'dart:io';
-import 'package:dio/dio.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:merchant_watches/domain/add_product_model/add_prodect_model/add_prodect_model.dart';
+import 'package:merchant_watches/domain/product_model/add_product_model/add_product_model.dart';
 import 'package:merchant_watches/infrastructure/add_products/add_products.dart';
 import 'package:provider/provider.dart';
 
@@ -134,7 +134,22 @@ class AddProductCartItems extends StatelessWidget {
 
   Future<void> addProductInBE(AddProductProvider value) async {
     try {
-      final newProduct = AddProdectModel.create(
+      for (var element in value.imagelist) {
+        Reference reference =
+            FirebaseStorage.instance.ref().child('images/${element.name}');
+        await reference.putFile(File(element.path));
+        String img = await reference.getDownloadURL();
+        log(img);
+        value.imageUrls.add(img);
+      }
+
+      log("----------imageUrls : ${value.imageUrls}");
+    } catch (error) {
+      log(error.toString());
+    }
+
+    try {
+      final newProduct = Product.create(
         name: nameProductController.text,
         price: int.parse(priseProductController.text),
         description: descriptionProductController.text,
@@ -150,10 +165,13 @@ class AddProductCartItems extends StatelessWidget {
       log(newProduct.category.toString());
       log(newProduct.deliveryFee.toString());
       log(' is getted');
-          await AddProductApi.instance.addProduct(newProduct);
-      
-    } on FormatException {
-      const FormatException().message;
+      await AddProductApi.instance.addProduct(newProduct);
+      value.imagelist.clear();
+      value.imageUrls.clear();
+      log(value.imageUrls.toString());
+      log(value.imagelist.toString());
+    } on FormatException catch (e) {
+      log(e.message);
     } catch (errMESSAGE) {
       log(errMESSAGE.toString());
     }

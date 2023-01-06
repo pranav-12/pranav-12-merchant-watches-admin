@@ -37,7 +37,7 @@ class ScreenSplash extends StatelessWidget {
                 progressColor: primaryFontColor,
                 onAnimationEnd: () => Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
-                    builder: (context) =>  CustomBNavBar(),
+                    builder: (context) => CustomBNavBar(),
                   ),
                 ),
               )

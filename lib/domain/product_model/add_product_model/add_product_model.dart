@@ -1,11 +1,23 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'add_prodect_model.g.dart';
+part 'add_product_model.g.dart';
 
 @JsonSerializable()
-class AddProdectModel {
-  // @JsonKey(name: '_id')
-  // String? id;
+class AddProductModel {
+  @JsonKey(name: 'products')
+  List<Product>? products;
+
+  AddProductModel({this.products = const []});
+
+  factory AddProductModel.fromJson(Map<String, dynamic> json) {
+    return _$AddProductModelFromJson(json);
+  }
+
+  Map<String, dynamic> toJson() => _$AddProductModelToJson(this);
+}
+
+@JsonSerializable()
+class Product {
   @JsonKey(name: 'name')
   String? name;
   @JsonKey(name: 'price')
@@ -13,14 +25,14 @@ class AddProdectModel {
   @JsonKey(name: 'description')
   String? description;
   @JsonKey(name: 'image')
-  List<dynamic>? image;
+  List<String>? image;
   @JsonKey(name: 'category')
   String? category;
   @JsonKey(name: 'deliveryFee')
   String? deliveryFee;
 
-  AddProdectModel.create({
-    // required this.id,
+
+ Product.create({
     required this.name,
     required this.price,
     required this.description,
@@ -29,8 +41,7 @@ class AddProdectModel {
     required this.deliveryFee,
   });
 
-  AddProdectModel({
-    // this.id,
+  Product({
     this.name,
     this.price,
     this.description,
@@ -39,9 +50,9 @@ class AddProdectModel {
     this.deliveryFee,
   });
 
-  factory AddProdectModel.fromJson(Map<String, dynamic> json) {
-    return _$AddProdectModelFromJson(json);
+  factory Product.fromJson(Map<String, dynamic> json) {
+    return _$ProductFromJson(json);
   }
 
-  Map<String, dynamic> toJson() => _$AddProdectModelToJson(this);
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
 }
