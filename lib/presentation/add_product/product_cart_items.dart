@@ -134,18 +134,11 @@ class AddProductCartItems extends StatelessWidget {
 
   Future<void> addProductInBE(AddProductProvider value) async {
     try {
-      log(nameProductController.text.toString());
-      log(priseProductController.text.toString());
-      log(value.categoryName.toString());
-      log(descriptionProductController.text.toString());
-      log(value.imagelist.toString());
-      log(deliveryfeeProductController.text.toString());
       final newProduct = AddProdectModel.create(
-        // id: DateTime.now().millisecondsSinceEpoch.toString(),
         name: nameProductController.text,
         price: int.parse(priseProductController.text),
         description: descriptionProductController.text,
-        image: value.imagelist,
+        image: value.imageUrls,
         category: value.categoryName,
         deliveryFee: deliveryfeeProductController.text,
       );
@@ -157,14 +150,8 @@ class AddProductCartItems extends StatelessWidget {
       log(newProduct.category.toString());
       log(newProduct.deliveryFee.toString());
       log(' is getted');
-      final isAddedProduct =
           await AddProductApi.instance.addProduct(newProduct);
-      if (isAddedProduct != null) {
-        print('Product Added SuccessFully');
-      } else {
-        log('safaf ' + isAddedProduct.toString());
-        print('Product not Added ');
-      }
+      
     } on FormatException {
       const FormatException().message;
     } catch (errMESSAGE) {

@@ -1,60 +1,51 @@
 import 'dart:developer';
 import 'dart:io';
-
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 
 class AddProductProvider with ChangeNotifier {
   int value = 1;
   List imagelist = [];
   String? categoryName;
-  String? imageUrl;
+  List imageUrls = [];
 
   Future getImage(BuildContext context) async {
     ImagePicker imagePicker = ImagePicker();
-    XFile? file = await imagePicker.pickImage(source: ImageSource.gallery);
+    List<XFile> file = await imagePicker.pickMultiImage();
 
-    print('==================================');
-
-    if (file == null) {
+    if (file.length > 4 || imagelist.length > 4) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Only 4 Images can add'),
+        ),
+      );
+      return;
+    } else if (imagelist.length + file.length > 4) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text('Only ${4 - imagelist.length} more Images can add'),
+      ));
       return;
     }
-    String uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
-
-    Reference reference = FirebaseStorage.instance.ref();
-    Reference referenceDirImages = reference.child('images');
-
-    Reference referenceImageToUpload = referenceDirImages.child(uniqueFileName);
-
     try {
-      await referenceImageToUpload.putFile(File(file.path));
+      for (var elemt in file) {
+        Reference reference =
+            FirebaseStorage.instance.ref().child('images/${elemt.name}');
+        await reference.putFile(File(elemt.path));
+        String img = await reference.getDownloadURL();
+        log(img);
+        imageUrls.add(img);
 
-      imageUrl = await referenceImageToUpload.getDownloadURL();
+        imagelist.add(elemt);
+        notifyListeners();
+      }
+
+      log("----------imageUrls : " + imageUrls.toString());
     } catch (error) {
       log(error.toString());
       print('----------------------------------$error');
     }
-    // log(image.toString());
-
-    // if (image.length > 4 || imagelist.length > 4) {
-    //   ScaffoldMessenger.of(context).showSnackBar(
-    //     const SnackBar(
-    //       content: Text('Only 4 Images can add'),
-    //     ),
-    //   );
-    //   return;
-    // } else if (imagelist.length + image.length > 4) {
-    //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    //     content: Text('Only ${4 - imagelist.length} more Images can add'),
-    //   ));
-    //   return;
-    // }
-    // imagelist.addAll(image);
-    imagelist.add(file);
-
-    notifyListeners();
   }
 
   void deleteImageList(int index) {
@@ -72,5 +63,4 @@ class AddProductProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // MediaType() {}
 }

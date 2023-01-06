@@ -22,22 +22,31 @@ class AddProductApi {
       responseType: ResponseType.plain,
     );
   }
-  Future<AddProdectModel?> addProduct(AddProdectModel value) async {
+  Future addProduct(AddProdectModel value) async {
     try {
       log(baseUrl + addProductUrl);
-      log('Model to Json : ' + value.toJson().toString());
-      Response response = await dio.post(options: Options(listFormat: ListFormat.multiCompatible),
+      log('Model to Json : ${value.toJson()}');
+      Response response = await dio.post(
+        options: Options(listFormat: ListFormat.multiCompatible),
         baseUrl + addProductUrl,
         data: value.toJson(),
       );
-      
-      log('result: ' + response.data);
-      final product =
+
+      log('result: $response.data');
           AddProdectModel.fromJson(response.data as Map<String, dynamic>);
-      log('prodeucr: ' + product.toJson().toString());
-      return product;
+
+
+          if (response != null) {
+        log(response.toString());
+        log('Product Added SuccessFully');
+      } else {
+        log('product is $response');
+        log('Product not Added ');
+      }
+    } on DioError catch (e) {
+      log(e.error);
     } catch (e) {
-      log('error: ' + e.toString());
+      log('error: $e');
       return null;
     }
   }
