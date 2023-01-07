@@ -2,27 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_snake_navigationbar/flutter_snake_navigationbar.dart';
 import 'package:merchant_watches/appication/bottom_nav_bar_provider.dart';
 import 'package:merchant_watches/constants/constants.dart';
-import 'package:merchant_watches/presentation/add_product/product_cart_items.dart';
-import 'package:merchant_watches/presentation/cart/screen_cart.dart';
+import 'package:merchant_watches/presentation/add_product/add_product_cart_items.dart';
+import 'package:merchant_watches/presentation/cart/screen_all_product_display.dart';
 import 'package:merchant_watches/presentation/home/dashboard.dart';
-import 'package:merchant_watches/presentation/wishlist/screen_wishlist.dart';
 import 'package:provider/provider.dart';
+
+import '../../appication/add_product_provider.dart';
 
 class CustomBNavBar extends StatelessWidget {
   CustomBNavBar({super.key});
+  
 // List for bottom nav bar items
   final List<BottomNavigationBarItem> iconListForBNavBarList = [
-    const BottomNavigationBarItem(
-      label: 'Home',
-      icon: Icon(
-        Icons.home,
-        size: 30,
-      ),
-    ),
+    
     const BottomNavigationBarItem(
       label: 'Cart',
       icon: Icon(
-        Icons.shopping_cart_outlined,
+        Icons.home,
         size: 30,
       ),
     ),
@@ -37,8 +33,7 @@ class CustomBNavBar extends StatelessWidget {
 
 // pages for body showing the content of the screen
   final List pages = [
-    ScreenDashBoard(),
-    const ScreenCart(),
+    const ScreenHome(),
     AddProductCartItems()
   ];
 

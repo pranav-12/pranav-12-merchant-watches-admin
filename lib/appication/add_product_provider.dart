@@ -1,5 +1,12 @@
+import 'dart:convert';
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'package:merchant_watches/domain/product_model/add_product_model/add_product_model.dart';
+import 'package:merchant_watches/infrastructure/add_products/add_products.dart';
 
 class AddProductProvider with ChangeNotifier {
   int value = 1;
@@ -7,8 +14,16 @@ class AddProductProvider with ChangeNotifier {
   List imagelist = [];
   List<String> imageUrls = [];
   List<XFile> file = [];
-  List getAllProductList = [];
+  AddProductModel? product;
+  List allProductList = [];
+  bool isLoading = false;
+  String? result;
 
+  final formKey = GlobalKey<FormState>();
+  final nameProductController = TextEditingController();
+  final priseProductController = TextEditingController();
+  final descriptionProductController = TextEditingController();
+  final deliveryfeeProductController = TextEditingController();
   Future getImage(BuildContext context) async {
     ImagePicker imagePicker = ImagePicker();
     file = await imagePicker.pickMultiImage();
@@ -28,7 +43,23 @@ class AddProductProvider with ChangeNotifier {
     }
 
     imagelist.addAll(file);
+    log(imagelist.toString());
     notifyListeners();
+  }
+
+  void refresh() {
+    imagelist.clear();
+    imageUrls.clear();
+    nameProductController.clear();
+    priseProductController.clear();
+    deliveryfeeProductController.clear();
+    descriptionProductController.clear();
+  }
+
+  void isLoadingFunc({
+    required bool value,
+  }) {
+    isLoading = value;
   }
 
   void deleteImageList(int index) {
@@ -43,6 +74,12 @@ class AddProductProvider with ChangeNotifier {
 
   void changeValue(int newValue) {
     value = newValue;
+    notifyListeners();
+  }
+
+  void getData() async {
+    await AddProductApi().getAllProuct();
+    // log('allProductList : $allProductList');
     notifyListeners();
   }
 }

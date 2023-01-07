@@ -8,10 +8,7 @@ part of 'add_product_model.dart';
 
 AddProductModel _$AddProductModelFromJson(Map<String, dynamic> json) =>
     AddProductModel(
-      products: (json['products'] as List<dynamic>?)
-              ?.map((e) => Product.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
+      products: json['products'] as List<dynamic>? ?? const [],
     );
 
 Map<String, dynamic> _$AddProductModelToJson(AddProductModel instance) =>
